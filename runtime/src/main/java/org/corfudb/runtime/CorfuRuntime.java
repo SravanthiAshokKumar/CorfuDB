@@ -38,6 +38,7 @@ import org.corfudb.util.CFUtils;
 import org.corfudb.util.GitRepositoryState;
 import org.corfudb.util.NodeLocator;
 import org.corfudb.util.Sleep;
+import org.corfudb.util.serializer.Serializers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -746,6 +747,12 @@ public class CorfuRuntime {
      * Latest layout seen by the runtime.
      */
     private volatile Layout latestLayout = null;
+
+    /**
+     * A set of serializers used to serialize/deserialize data
+     */
+    @Getter
+    private final Serializers serializers = new Serializers();
 
     /**
      * Register SystemDownHandler.
