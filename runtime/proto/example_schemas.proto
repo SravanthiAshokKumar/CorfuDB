@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package org.corfudb.runtime;
+option java_package = "org.corfudb.runtime";
+
+import "google/protobuf/descriptor.proto";
+
+message ManagedMetadata {
+  int64 revision = 1;
+  int64 create_time = 2;
+  string create_user = 3;
+  int64 last_modified_time = 4;
+  string last_modified_user = 5;
+}
+
+message Uuid {
+  fixed64 msb = 1;
+  fixed64 lsb = 2;
+}
+
+message ExampleValue {
+  string value = 2;
+}
