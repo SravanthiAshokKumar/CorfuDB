@@ -623,7 +623,7 @@ public class AddressSpaceView extends AbstractView implements AutoCloseable {
      *
      * @param address a token with address to trim
      */
-    public void prefixTrim(final Token address) {
+    public void prefixTrim(final long address) {
         prefixTrim(address, true);
     }
 
@@ -638,7 +638,7 @@ public class AddressSpaceView extends AbstractView implements AutoCloseable {
      * @param address a token with address to trim
      * @param retry   whether to do retry on certain failures
      */
-    public void prefixTrim(final Token address, boolean retry) {
+    public void prefixTrim(final long address, boolean retry) {
         log.info("PrefixTrim[{}]", address);
         final int numRetries = retry ? 3 : 1;
 
@@ -652,7 +652,7 @@ public class AddressSpaceView extends AbstractView implements AutoCloseable {
                 // In this case we avoid this case, and even if the log unit trim fails,
                 // this data is checkpointed so there is no actual correctness implication.
                 // TODO(Maithem): trimCache should be epoch aware?
-                runtime.getSequencerView().trimCache(address.getSequence());
+                runtime.getSequencerView().trimCache(address);
 
                 layoutHelper(e -> {
                     Utils.prefixTrim(e, address);

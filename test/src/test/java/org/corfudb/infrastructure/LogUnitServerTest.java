@@ -412,7 +412,7 @@ public class LogUnitServerTest extends AbstractServerTest {
 
         // Trim the log, and verify that trim mark is updated on log unit
         newServer.prefixTrim(trimMark);
-        sendRequest(getTrimLogRequestMsg(new Token(0L, trimMark)), ClusterIdCheck.CHECK, EpochCheck.CHECK).join();
+        sendRequest(getTrimLogRequestMsg(trimMark), ClusterIdCheck.CHECK, EpochCheck.CHECK).join();
 
         // Retrieve address space from current log unit server (after a prefix trim)
         addressSpace = newServer.getStreamAddressSpace(streamID);

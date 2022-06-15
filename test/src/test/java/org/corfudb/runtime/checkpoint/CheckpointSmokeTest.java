@@ -864,7 +864,7 @@ public class CheckpointSmokeTest extends AbstractViewTest {
         cpw.setSerializer(serializer);
 
         Token trimToken = Token.min(checkpointUfoSystemTables(r, serializer), cpw.appendCheckpoint());
-        r.getAddressSpaceView().prefixTrim(trimToken);
+        r.getAddressSpaceView().prefixTrim(trimToken.getSequence());
 
         // Verify that the stream's tail is a hole that contains the Table tags as well
         long cpHoleAddress = r.getSequencerView().query(streamId);
@@ -1150,7 +1150,7 @@ public class CheckpointSmokeTest extends AbstractViewTest {
 
         // Trim on second checkpoint and clear all caches
         System.out.println("Trim at: " + cpAddress2);
-        r.getAddressSpaceView().prefixTrim(new Token(0, cpAddress2));
+        r.getAddressSpaceView().prefixTrim(cpAddress2);
         r.getAddressSpaceView().invalidateClientCache();
         r.getAddressSpaceView().invalidateServerCaches();
         rt.getAddressSpaceView().invalidateClientCache();
@@ -1196,7 +1196,7 @@ public class CheckpointSmokeTest extends AbstractViewTest {
         mcw1.addMap((CorfuTable) mB);
         Token trimAddress = mcw1.appendCheckpoints(r, author);
 
-        r.getAddressSpaceView().prefixTrim(trimAddress);
+        r.getAddressSpaceView().prefixTrim(trimAddress.getSequence());
         r.getAddressSpaceView().gc();
         r.getAddressSpaceView().invalidateServerCaches();
         r.getAddressSpaceView().invalidateClientCache();
@@ -1252,7 +1252,7 @@ public class CheckpointSmokeTest extends AbstractViewTest {
         cpw1.appendCheckpoint(new Token(0, snapshotAddress1 - 1));
 
         // Trim @snapshotAddress=15
-        r.getAddressSpaceView().prefixTrim(cp2Token);
+        r.getAddressSpaceView().prefixTrim(cp2Token.getSequence());
 
         // New Runtime
         CorfuRuntime rt2 = getNewRuntime(getDefaultNode()).connect();

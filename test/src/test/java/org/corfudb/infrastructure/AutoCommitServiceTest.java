@@ -351,9 +351,8 @@ public class AutoCommitServiceTest extends AbstractViewTest {
         // First invocation would only set the next commit end to the current log tail.
         autoCommitService.runAutoCommit();
 
-        Layout layout = runtime.getLayoutView().getLayout();
-        Token oldTrimMark = Token.of(layout.getEpoch(), 100);
-        Token newTrimMark = Token.of(layout.getEpoch(), 200);
+        final long oldTrimMark = 100;
+        final long newTrimMark = 200;
         // Head and middle chain has old trim mark, tail chain has new trim mark.
         runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_0).prefixTrim(oldTrimMark).join();
         runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_1).prefixTrim(oldTrimMark).join();
@@ -362,11 +361,11 @@ public class AutoCommitServiceTest extends AbstractViewTest {
         autoCommitService.runAutoCommit();
 
         assertThat(runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_0)
-                .getTrimMark().get()).isEqualTo(newTrimMark.getSequence() + 1L);
+                .getTrimMark().get()).isEqualTo(newTrimMark + 1L);
         assertThat(runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_1)
-                .getTrimMark().get()).isEqualTo(newTrimMark.getSequence() + 1L);
+                .getTrimMark().get()).isEqualTo(newTrimMark + 1L);
         assertThat(runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_2)
-                .getTrimMark().get()).isEqualTo(newTrimMark.getSequence() + 1L);
+                .getTrimMark().get()).isEqualTo(newTrimMark + 1L);
 
         assertThat(runtime.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_0)
                 .getCommittedTail().get()).isEqualTo(numIter - 1L);
@@ -376,7 +375,7 @@ public class AutoCommitServiceTest extends AbstractViewTest {
                 .getCommittedTail().get()).isEqualTo(numIter - 1L);
 
         for (long i = 0; i < numIter; i++) {
-            if (i <= newTrimMark.getSequence()) {
+            if (i <= newTrimMark) {
                 assertThat(read(runtime, i, SERVERS.ENDPOINT_2).getType()).isEqualTo(DataType.TRIMMED);
             } else if (noWriteHoles.contains(i)) {
                 assertThat(read(runtime, i, SERVERS.ENDPOINT_2).getType()).isEqualTo(DataType.HOLE);
@@ -505,7 +504,7 @@ public class AutoCommitServiceTest extends AbstractViewTest {
                 if (ruleExecuted.getAndSet(true)) {
                     return true;
                 }
-                runtime.getAddressSpaceView().prefixTrim(Token.of(epoch, trimAddress));
+                runtime.getAddressSpaceView().prefixTrim(trimAddress);
             }
             return true;
         }));

@@ -60,8 +60,7 @@ public class StreamTest extends AbstractTransactionsTest {
     @Test
     public void testOverWriteRetry() {
         UUID svId = CorfuRuntime.getStreamID("stream1");
-        final Token trimMark = getTrimMark(getRuntime(), getRuntime().getParameters().getWriteRetry() - 1);
-        getRuntime().getAddressSpaceView().prefixTrim(trimMark);
+        getRuntime().getAddressSpaceView().prefixTrim(getRuntime().getParameters().getWriteRetry() - 1);
         final int payloadSize = 100;
         assertThatThrownBy(() -> getRuntime().getStreamsView().append(
                 new byte[payloadSize], null, svId))
@@ -71,8 +70,7 @@ public class StreamTest extends AbstractTransactionsTest {
     @Test
     public void testBackpointersSvOverwriteRetry() {
         UUID svId = CorfuRuntime.getStreamID("stream1");
-        final Token trimMark = getTrimMark(getRuntime(), getRuntime().getParameters().getWriteRetry() - 1);
-        getRuntime().getAddressSpaceView().prefixTrim(trimMark);
+        getRuntime().getAddressSpaceView().prefixTrim(getRuntime().getParameters().getWriteRetry() - 1);
         final int payloadSize = 100;
         IStreamView sv = getRuntime().getStreamsView().get(svId);
         assertThatThrownBy(() -> sv.append(new byte[payloadSize]))
@@ -82,12 +80,11 @@ public class StreamTest extends AbstractTransactionsTest {
     @Test
     public void testTxnOverwriteRetry() throws Exception {
         CorfuTable<String, String> map = instantiateCorfuObject(CorfuTable.class, "A");
-        final Token trimMark = getTrimMark(getRuntime(), getRuntime().getParameters().getWriteRetry() - 1);
         final String key = "key";
         final String val = "val";
         LogUnitClient lu = getRuntime().getLayoutView().getRuntimeLayout()
                 .getLogUnitClient(getDefaultConfigurationString());
-        lu.prefixTrim(trimMark).get();
+        lu.prefixTrim(getRuntime().getParameters().getWriteRetry() - 1).get();
         TXBegin();
         map.put(key, val);
 
@@ -110,8 +107,7 @@ public class StreamTest extends AbstractTransactionsTest {
             TXEnd();
         });
 
-        Token token = new Token(getRuntime().getLayoutView().getLayout().getEpoch(), 1);
-        getRuntime().getAddressSpaceView().prefixTrim(token);
+        getRuntime().getAddressSpaceView().prefixTrim(1);
 
         for (int x = 0; x < numEntries; x++) {
             map.put(Integer.toString(x), Integer.toString(x));

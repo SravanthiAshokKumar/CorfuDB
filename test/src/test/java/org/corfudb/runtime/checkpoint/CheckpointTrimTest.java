@@ -90,12 +90,11 @@ public class CheckpointTrimTest extends AbstractViewTest {
         MultiCheckpointWriter mcw = new MultiCheckpointWriter();
         mcw.addMap(map);
         Token trimAddress = mcw.appendCheckpoints(getRuntime(), "author");
-        Token staleTrimAddress = new Token(trimAddress.getEpoch() - 1, trimAddress.getSequence());
 
-        getRuntime().getAddressSpaceView().prefixTrim(staleTrimAddress);
+        getRuntime().getAddressSpaceView().prefixTrim(trimAddress.getSequence());
 
         Token expectedTrimMark = new Token(getRuntime().getLayoutView().getLayout().getEpoch(),
-                staleTrimAddress.getSequence() + 1);
+                trimAddress.getSequence() + 1);
         assertThat(getRuntime().getAddressSpaceView().getTrimMark())
                 .isEqualByComparingTo(expectedTrimMark);
     }
@@ -371,7 +370,7 @@ public class CheckpointTrimTest extends AbstractViewTest {
      * @param token point at which to trim the address space.
      */
     private void trim(Token token) {
-        getRuntime().getAddressSpaceView().prefixTrim(token);
+        getRuntime().getAddressSpaceView().prefixTrim(token.getSequence());
         getRuntime().getAddressSpaceView().gc();
         getRuntime().getAddressSpaceView().invalidateServerCaches();
         getRuntime().getAddressSpaceView().invalidateClientCache();
@@ -452,7 +451,7 @@ public class CheckpointTrimTest extends AbstractViewTest {
 
         // Trim
         try {
-            getDefaultRuntime().getAddressSpaceView().prefixTrim(new Token(finalEpoch, Address.NON_ADDRESS));
+            getDefaultRuntime().getAddressSpaceView().prefixTrim(Address.NON_ADDRESS);
         } catch (Exception e) {
             // Old behavior, a WrongEpochException was thrown wrapped in RuntimeException, it should not behave in this way.
             exceptionCaught = true;

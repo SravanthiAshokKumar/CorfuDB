@@ -1126,7 +1126,7 @@ public class ClusterReconfigIT extends AbstractIT {
         mcw.addMap(table);
         Token token = mcw.appendCheckpoints(runtime, "author");
         if (trim) {
-            runtime.getAddressSpaceView().prefixTrim(token);
+            runtime.getAddressSpaceView().prefixTrim(token.getSequence());
         }
 
         // Add two other servers that triggers state transfer.

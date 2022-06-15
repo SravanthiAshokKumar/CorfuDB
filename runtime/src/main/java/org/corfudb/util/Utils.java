@@ -189,7 +189,7 @@ public class Utils {
      * @param runtimeLayout current RuntimeLayout
      * @param address a token with address to trim
      */
-    public static void prefixTrim(RuntimeLayout runtimeLayout, Token address) {
+    public static void prefixTrim(RuntimeLayout runtimeLayout, long address) {
         List<CompletableFuture<Void>> futures = runtimeLayout
                 .getLayout()
                 .getAllLogServers()

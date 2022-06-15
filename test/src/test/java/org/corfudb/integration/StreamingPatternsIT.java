@@ -318,8 +318,7 @@ public class StreamingPatternsIT extends AbstractIT {
         mcw.appendCheckpoints(runtime, "StreamingPatternsIT");
 
         Timestamp lastProcessedTs = Iterables.getLast(defaultStreamListener.getUpdates()).getTimestamp();
-        Token trimPoint = new Token(lastProcessedTs.getEpoch(),
-                lastProcessedTs.getSequence() + deltaToError + (numUpdates/2));
+        long trimPoint = lastProcessedTs.getSequence() + deltaToError + (numUpdates/2);
         runtime.getAddressSpaceView().prefixTrim(trimPoint);
         runtime.getAddressSpaceView().gc();
         runtime.getObjectsView().getObjectCache().clear();
@@ -454,7 +453,7 @@ public class StreamingPatternsIT extends AbstractIT {
         mcw.addMap(runtime.getTableRegistry().getRegistryTable());
         mcw.addMap(runtime.getTableRegistry().getProtobufDescriptorTable());
         Token trimToken = mcw.appendCheckpoints(runtime, "StreamingPatternsIT");
-        runtime.getAddressSpaceView().prefixTrim(trimToken);
+        runtime.getAddressSpaceView().prefixTrim(trimToken.getSequence());
         runtime.getAddressSpaceView().gc();
         runtime.getObjectsView().getObjectCache().clear();
 
@@ -534,7 +533,7 @@ public class StreamingPatternsIT extends AbstractIT {
         mcw.addMap(runtime.getTableRegistry().getRegistryTable());
         mcw.addMap(runtime.getTableRegistry().getProtobufDescriptorTable());
         Token trimToken = mcw.appendCheckpoints(runtime, "StreamingPatternsIT");
-        runtime.getAddressSpaceView().prefixTrim(trimToken);
+        runtime.getAddressSpaceView().prefixTrim(trimToken.getSequence());
         runtime.getAddressSpaceView().gc();
         runtime.getObjectsView().getObjectCache().clear();
 

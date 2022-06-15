@@ -42,7 +42,7 @@ public class ViewsGarbageCollectorTest extends AbstractViewTest {
         MultiCheckpointWriter mcw = new MultiCheckpointWriter();
         mcw.addMap(table);
         Token trimMark = mcw.appendCheckpoints(rt, "cp1");
-        rt.getAddressSpaceView().prefixTrim(trimMark);
+        rt.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         rt.getParameters().setRuntimeGCPeriod(Duration.ofMinutes(0));
         rt.getGarbageCollector().runRuntimeGC();
         assertThat(rt.getAddressSpaceView().getReadCache().asMap()).isEmpty();

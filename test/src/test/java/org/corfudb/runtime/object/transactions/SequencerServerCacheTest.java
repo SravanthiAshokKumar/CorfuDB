@@ -41,7 +41,7 @@ public class SequencerServerCacheTest extends AbstractObjectTest {
                 .open();
 
         final int numTxn = 500;
-        final Token trimAddress = new Token(getDefaultRuntime().getLayoutView().getLayout().getEpoch(), 250);
+        final long trimAddress = 250;
         for (int x = 0; x < numTxn; x++) {
             getRuntime().getObjectsView().TXBegin();
             map.put(x, x);
@@ -57,8 +57,8 @@ public class SequencerServerCacheTest extends AbstractObjectTest {
         // therefore it must be directly invoked to wait for the future.
         getDefaultRuntime().getLayoutView().getRuntimeLayout()
                 .getPrimarySequencerClient()
-                .trimCache(trimAddress.getSequence()).join();
-        assertThat(cache.size()).isEqualTo((int) trimAddress.getSequence());
+                .trimCache(trimAddress).join();
+        assertThat(cache.size()).isEqualTo((int) trimAddress);
     }
 
     /**

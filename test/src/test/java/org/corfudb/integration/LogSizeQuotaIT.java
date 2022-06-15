@@ -132,7 +132,7 @@ public class LogSizeQuotaIT extends AbstractIT {
         MultiCheckpointWriter mcw = new MultiCheckpointWriter();
         mcw.addMap(map2);
         Token token = mcw.appendCheckpoints(privilegedRt, "privilegedWriter");
-        privilegedRt.getAddressSpaceView().prefixTrim(token);
+        privilegedRt.getAddressSpaceView().prefixTrim(token.getSequence());
         privilegedRt.getAddressSpaceView().gc();
 
         // Now verify that the original client (i.e. has a normal priority) is

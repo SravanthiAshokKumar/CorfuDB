@@ -192,7 +192,7 @@ public class AbstractStreamViewTest extends AbstractViewTest {
         assertThat(((AbstractQueuedStreamView) bpsvA).getContext().resolvedQueue).hasSize(PARAMETERS.NUM_ITERATIONS_LOW);
         assertThat(((AbstractQueuedStreamView) bpsvB).getContext().resolvedQueue).hasSize(PARAMETERS.NUM_ITERATIONS_LOW);
         TokenResponse tail = runtime.getSequencerView().query();
-        runtime.getAddressSpaceView().prefixTrim(tail.getToken());
+        runtime.getAddressSpaceView().prefixTrim(tail.getToken().getSequence());
         // First Runtime GC
         runtime.getGarbageCollector().runRuntimeGC();
 
@@ -290,7 +290,7 @@ public class AbstractStreamViewTest extends AbstractViewTest {
         }
 
         // Force a prefix trim
-        runtime.getAddressSpaceView().prefixTrim(new Token(epoch, trimMark));
+        runtime.getAddressSpaceView().prefixTrim(trimMark);
 
         // Wait until log is trimmed
         TimeUnit.MILLISECONDS.sleep(waitForTrim.toMillis());

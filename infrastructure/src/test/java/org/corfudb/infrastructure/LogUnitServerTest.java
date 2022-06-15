@@ -349,7 +349,7 @@ public class LogUnitServerTest {
     public void testHandleTrimLog() {
         RequestMsg request = getRequestMsg(
                 getBasicHeader(ClusterIdCheck.CHECK, EpochCheck.CHECK),
-                getTrimLogRequestMsg(Token.of(0L, 24L))
+                getTrimLogRequestMsg(24L)
         );
 
         // Return a future when the operation is added to the BatchProcessor.

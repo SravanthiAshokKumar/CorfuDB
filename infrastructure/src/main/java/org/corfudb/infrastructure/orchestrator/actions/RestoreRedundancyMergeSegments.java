@@ -358,7 +358,7 @@ public class RestoreRedundancyMergeSegments extends Action {
             try {
                 long trimMark = Utils.getTrimMark(runtimeLayout).getSequence();
 
-                Token prefixToken = new Token(layout.getEpoch(), trimMark - 1);
+                long prefixToken = trimMark - 1;
 
                 LogUnitClient logUnitClient = runtime
                         .getLayoutView()

@@ -191,10 +191,10 @@ public class AddressSpaceViewTest extends AbstractViewTest {
         setupNodes();
         CorfuRuntime rt = getRuntime().connect();
         assertThat(rt.getAddressSpaceView().getTrimMark().getSequence()).isEqualTo(0);
-        final Token trimAddress = new Token(rt.getLayoutView().getLayout().getEpoch(), 10);
+        final long trimAddress = 10;
 
         rt.getAddressSpaceView().prefixTrim(trimAddress);
-        assertThat(rt.getAddressSpaceView().getTrimMark().getSequence()).isEqualTo(trimAddress.getSequence() + 1);
+        assertThat(rt.getAddressSpaceView().getTrimMark().getSequence()).isEqualTo(trimAddress + 1);
     }
 
     @Test

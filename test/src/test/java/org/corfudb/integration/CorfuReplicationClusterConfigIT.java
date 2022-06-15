@@ -658,7 +658,7 @@ public class CorfuReplicationClusterConfigIT extends AbstractIT {
         Token token = mcw.appendCheckpoints(cpRuntime, author);
         trimMark = trimMark != null ? Token.min(trimMark, token) : token;
 
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().gc();
 
         // Lastly restore the regular protoBuf serializer and undo the dynamic protoBuf serializer
@@ -667,7 +667,7 @@ public class CorfuReplicationClusterConfigIT extends AbstractIT {
 
         // Trim
         log.debug("**** Trim Log @address=" + trimMark);
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().invalidateClientCache();
         cpRuntime.getAddressSpaceView().invalidateServerCaches();
         cpRuntime.getAddressSpaceView().gc();

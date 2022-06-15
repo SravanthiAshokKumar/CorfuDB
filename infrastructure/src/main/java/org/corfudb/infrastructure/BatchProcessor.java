@@ -164,7 +164,7 @@ public class BatchProcessor implements AutoCloseable {
                         RequestPayloadMsg payload =  currentOp.getRequest().getPayload();
                         switch (currentOp.getType()) {
                             case PREFIX_TRIM:
-                                final long addr = payload.getTrimLogRequest().getAddress().getSequence();
+                                final long addr = payload.getTrimLogRequest().getAddress();
                                 streamLog.prefixTrim(addr);
                                 break;
                             case WRITE:

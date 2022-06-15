@@ -29,7 +29,7 @@ public class CheckpointOperation extends Operation {
             TimeUnit.SECONDS.sleep(30);
 
             AddressSpaceView addressSpaceView = state.getRuntime().getAddressSpaceView();
-            addressSpaceView.prefixTrim(trimAddress);
+            addressSpaceView.prefixTrim(trimAddress.getSequence());
             addressSpaceView.gc();
             addressSpaceView.invalidateClientCache();
             addressSpaceView.invalidateServerCaches();

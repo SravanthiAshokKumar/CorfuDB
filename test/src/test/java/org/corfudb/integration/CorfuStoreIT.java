@@ -193,7 +193,7 @@ public class CorfuStoreIT extends AbstractIT {
         mcw.addMap(descriptorTable);
         Token trimPoint = mcw.appendCheckpoints(runtime, "checkpointer");
 
-        runtime.getAddressSpaceView().prefixTrim(trimPoint);
+        runtime.getAddressSpaceView().prefixTrim(trimPoint.getSequence());
         runtime.getAddressSpaceView().gc();
         runtime.getSerializers().clearCustomSerializers();
         runtime.shutdown();
@@ -289,7 +289,7 @@ public class CorfuStoreIT extends AbstractIT {
         }
 
         if (!skipTrim) {
-            runtimeC.getAddressSpaceView().prefixTrim(trimToken);
+            runtimeC.getAddressSpaceView().prefixTrim(trimToken.getSequence());
             runtimeC.getAddressSpaceView().gc();
         }
         // Lastly restore the regular protobuf serializer and undo the dynamic protobuf serializer
@@ -423,7 +423,7 @@ public class CorfuStoreIT extends AbstractIT {
         mcw.addMap(runtime.getTableRegistry().getRegistryTable());
         mcw.addMap(runtime.getTableRegistry().getProtobufDescriptorTable());
         Token trimPoint = mcw.appendCheckpoints(runtime, "checkpointer");
-        runtime.getAddressSpaceView().prefixTrim(trimPoint);
+        runtime.getAddressSpaceView().prefixTrim(trimPoint.getSequence());
         runtime.getAddressSpaceView().gc();
         runtime.getObjectsView().getObjectCache().clear();
         runtime.shutdown();

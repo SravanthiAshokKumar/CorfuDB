@@ -216,7 +216,7 @@ public class LogUnitClient extends AbstractClient {
      * @param address an address to trim up to (i.e. [0, address))
      * @return an empty completableFuture
      */
-    public CompletableFuture<Void> prefixTrim(Token address) {
+    public CompletableFuture<Void> prefixTrim(long address) {
         return sendRequestWithFuture(getTrimLogRequestMsg(address), ClusterIdCheck.CHECK, EpochCheck.CHECK);
     }
 

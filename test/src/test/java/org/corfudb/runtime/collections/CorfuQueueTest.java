@@ -245,7 +245,7 @@ public class CorfuQueueTest extends AbstractViewTest {
         mcw.addMap(map1);
         mcw.addMap(map2);
         Token checkpointAddress = mcw.appendCheckpoints(getRuntime(), "author");
-        checkpointerRuntime.getAddressSpaceView().prefixTrim(checkpointAddress);
+        checkpointerRuntime.getAddressSpaceView().prefixTrim(checkpointAddress.getSequence());
         checkpointerRuntime.getAddressSpaceView().gc();
 
         // Verify that after checkpointing and trimming that the queues' data

@@ -213,7 +213,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             assertThat(map2).hasSize(sizeMap2);
 
             // Trim on the lower address (@5)
-            defaultRT.getAddressSpaceView().prefixTrim(minCheckpointAddress);
+            defaultRT.getAddressSpaceView().prefixTrim(minCheckpointAddress.getSequence());
 
             // New runtime read s1, read s2 (from checkpoint)
             Map<String, String> map1rt = rt.getObjectsView().build()
@@ -301,7 +301,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             assertThat(map1).hasSize(batchWrite+batchWrite);
 
             // Trim below lower checkpoint
-            writeRuntime.getAddressSpaceView().prefixTrim(new Token(minCheckpointAddress.getEpoch(), trimAddress));
+            writeRuntime.getAddressSpaceView().prefixTrim(trimAddress);
 
             // New runtime
             Map<String, String> map1rt = readRuntime.getObjectsView().build()
@@ -391,7 +391,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             cpwB.appendCheckpoint(new Token(0, snapshotAddress));
 
             // Trim the log
-            runtime.getAddressSpaceView().prefixTrim(cpAddress);
+            runtime.getAddressSpaceView().prefixTrim(cpAddress.getSequence());
             runtime.getAddressSpaceView().gc();
             runtime.getAddressSpaceView().invalidateServerCaches();
             runtime.getAddressSpaceView().invalidateClientCache();
@@ -511,7 +511,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             Token cpAddress = cpw.appendCheckpoint(new Token(0, snapshotAddress));
 
             // Trim the log
-            runtime.getAddressSpaceView().prefixTrim(cpAddress);
+            runtime.getAddressSpaceView().prefixTrim(cpAddress.getSequence());
             runtime.getAddressSpaceView().gc();
             runtime.getAddressSpaceView().invalidateServerCaches();
             runtime.getAddressSpaceView().invalidateClientCache();
@@ -611,7 +611,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             Token cpAddress = cpw.appendCheckpoint(new Token(0, snapshotAddress - 1));
 
             // Trim the log
-            runtime.getAddressSpaceView().prefixTrim(cpAddress);
+            runtime.getAddressSpaceView().prefixTrim(cpAddress.getSequence());
             runtime.getAddressSpaceView().gc();
             runtime.getAddressSpaceView().invalidateServerCaches();
             runtime.getAddressSpaceView().invalidateClientCache();
@@ -729,7 +729,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             mA.put(String.valueOf(numEntries), numEntries);
 
             // Trim the log at B's CPToken
-            runtime.getAddressSpaceView().prefixTrim(cpTokenA);
+            runtime.getAddressSpaceView().prefixTrim(cpTokenA.getSequence());
 
             // Flush Server Cache after trim
             runtime.getLayoutView().getRuntimeLayout()
@@ -804,7 +804,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
                     .get(CheckpointEntry.CheckpointDictKey.START_LOG_ADDRESS)).isEqualTo("0");
 
             // Trim the log at B's CPToken
-            runtime.getAddressSpaceView().prefixTrim(cpToken);
+            runtime.getAddressSpaceView().prefixTrim(cpToken.getSequence());
 
             // Flush Server Cache after trim
             runtime.getLayoutView().getRuntimeLayout()
@@ -933,7 +933,7 @@ public class StreamAddressDiscoveryIT extends AbstractIT {
             assertThat(sequencerTails.getStreamTail(checkpointId)).isEqualTo(totalEntries + extraEntry);
 
             // Trim the log at A's CPToken
-            runtime.getAddressSpaceView().prefixTrim(cpTokenA);
+            runtime.getAddressSpaceView().prefixTrim(cpTokenA.getSequence());
 
             long currentEpoch = runtime.getLayoutView().getLayout().getEpoch();
 

@@ -135,7 +135,7 @@ public class OpaqueStreamTest extends AbstractViewTest {
         mcw.addMap(map);
         Token token = mcw.appendCheckpoints(rt, "baah");
 
-        rt.getAddressSpaceView().prefixTrim(token);
+        rt.getAddressSpaceView().prefixTrim(token.getSequence());
 
         rt.getSerializers().removeSerializer(customSerializer);
 

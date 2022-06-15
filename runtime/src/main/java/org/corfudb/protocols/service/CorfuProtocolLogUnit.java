@@ -209,10 +209,10 @@ public final class CorfuProtocolLogUnit {
      * @param address  an address to trim up to (i.e. [0, address))
      * @return         a RequestPayloadMsg containing the TRIM_LOG request
      */
-    public static RequestPayloadMsg getTrimLogRequestMsg(Token address) {
+    public static RequestPayloadMsg getTrimLogRequestMsg(long address) {
         return RequestPayloadMsg.newBuilder()
                 .setTrimLogRequest(TrimLogRequestMsg.newBuilder()
-                        .setAddress(getTokenMsg(address))
+                        .setAddress(address)
                         .build())
                 .build();
     }

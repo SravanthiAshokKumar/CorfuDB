@@ -145,8 +145,8 @@ public class StreamViewTest extends AbstractViewTest {
         List<ILogData> entries = txStream.remainingUpTo((firstIter - 1) / 2);
         assertThat(entries.size()).isEqualTo(firstIter / 2);
 
-        Token token = new Token(runtime.getLayoutView().getLayout().getEpoch(), (firstIter - 1) / 2);
-        runtime.getAddressSpaceView().prefixTrim(token);
+        long trimToken = (firstIter - 1) / 2;
+        runtime.getAddressSpaceView().prefixTrim(trimToken);
         runtime.getAddressSpaceView().invalidateServerCaches();
         runtime.getAddressSpaceView().invalidateClientCache();
 
@@ -378,8 +378,7 @@ public class StreamViewTest extends AbstractViewTest {
         sv.append(testPayload);
 
         // Trim the entry
-        Token token = new Token(runtime.getLayoutView().getLayout().getEpoch(), 0);
-        runtime.getAddressSpaceView().prefixTrim(token);
+        runtime.getAddressSpaceView().prefixTrim(0);
         runtime.getAddressSpaceView().gc();
         runtime.getAddressSpaceView().invalidateServerCaches();
         runtime.getAddressSpaceView().invalidateClientCache();
@@ -471,7 +470,7 @@ public class StreamViewTest extends AbstractViewTest {
      */
     private void synchronousPrefixTrim(CorfuRuntime runtime, long epoch, long address) {
         final Token prevTrimMark = runtime.getAddressSpaceView().getTrimMark();
-        runtime.getAddressSpaceView().prefixTrim(new Token(epoch, address));
+        runtime.getAddressSpaceView().prefixTrim(address);
         while (prevTrimMark.equals(runtime.getAddressSpaceView().getTrimMark())) { }
     }
 
@@ -683,8 +682,7 @@ public class StreamViewTest extends AbstractViewTest {
 
             // Trim address space (no checkpoint, as this test assumes stream is not checkpoint capable)
             long trimAddress = partialTrim ? NUM_UPDATES - OFFSET : NUM_UPDATES;
-            Token token = Token.of(0, trimAddress);
-            r.getAddressSpaceView().prefixTrim(token);
+            r.getAddressSpaceView().prefixTrim(trimAddress);
             r.getAddressSpaceView().gc();
             r.getObjectsView().getObjectCache().clear();
 

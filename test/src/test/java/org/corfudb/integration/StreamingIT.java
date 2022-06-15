@@ -1460,10 +1460,9 @@ public class StreamingIT extends AbstractIT {
         if (partialTrim) {
             final int trimOffset = 5;
             Long sequenceModified = trimPoint.getSequence() - trimOffset;
-            Token partialTrimMark = Token.of(trimPoint.getEpoch(), sequenceModified);
-            rt.getAddressSpaceView().prefixTrim(partialTrimMark);
+            rt.getAddressSpaceView().prefixTrim(sequenceModified);
         } else {
-            rt.getAddressSpaceView().prefixTrim(trimPoint);
+            rt.getAddressSpaceView().prefixTrim(trimPoint.getSequence());
         }
         rt.getAddressSpaceView().gc();
         rt.getObjectsView().getObjectCache().clear();

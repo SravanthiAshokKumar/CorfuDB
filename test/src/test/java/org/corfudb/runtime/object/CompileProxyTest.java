@@ -53,8 +53,7 @@ public class CompileProxyTest extends AbstractViewTest {
         rt.getSequencerView().next(CorfuRuntime.getStreamID(streamName));
 
         // Trim all the way up to the tail
-        Token token = new Token(rt.getLayoutView().getLayout().getEpoch(), numOfTokens);
-        rt.getAddressSpaceView().prefixTrim(token);
+        rt.getAddressSpaceView().prefixTrim(numOfTokens);
         rt.getAddressSpaceView().gc();
         rt.getAddressSpaceView().invalidateServerCaches();
 

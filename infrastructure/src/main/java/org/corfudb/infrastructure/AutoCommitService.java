@@ -116,8 +116,7 @@ public class AutoCommitService implements ManagementService {
                     if (committedTail < lastTrimmed) {
                         log.info("runAutoCommit: committedTail {} < last trimmed address {}, " +
                                 "starting prefix trim.", committedTail, lastTrimmed);
-                        Token trimToken = new Token(trimMark.getEpoch(), lastTrimmed);
-                        getCorfuRuntime().getAddressSpaceView().prefixTrim(trimToken, false);
+                        getCorfuRuntime().getAddressSpaceView().prefixTrim(lastTrimmed, false);
                         committedTail = trimMark.getSequence() - 1;
                     }
                     lastEpoch = currEpoch;

@@ -340,7 +340,7 @@ public class LogUnitServer extends AbstractServer {
     private void handleTrimLog(RequestMsg req, ChannelHandlerContext ctx, IServerRouter router) {
         if (log.isDebugEnabled()) {
             log.debug("handleTrimLog[{}]: trim to {}", req.getHeader().getRequestId(),
-                    TextFormat.shortDebugString(req.getPayload().getTrimLogRequest().getAddress()));
+                    req.getPayload().getTrimLogRequest().getAddress());
         }
 
         batchWriter.addTask(BatchWriterOperation.Type.PREFIX_TRIM, req)

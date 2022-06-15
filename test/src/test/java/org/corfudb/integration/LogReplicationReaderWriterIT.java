@@ -369,13 +369,12 @@ public class LogReplicationReaderWriterIT extends AbstractIT {
 
     public static void trimAlone(long address, CorfuRuntime rt) {
         // Trim the log
-        Token token = new Token(0, address);
-        rt.getAddressSpaceView().prefixTrim(token);
+        rt.getAddressSpaceView().prefixTrim(address);
         rt.getAddressSpaceView().gc();
         rt.getAddressSpaceView().invalidateServerCaches();
         rt.getAddressSpaceView().invalidateClientCache();
         waitSem.release();
-        log.debug("\ntrim at " + token + " currentTail " + rt.getAddressSpaceView().getLogTail());
+        log.debug("\ntrim at " + address + " currentTail " + rt.getAddressSpaceView().getLogTail());
     }
 
     /**

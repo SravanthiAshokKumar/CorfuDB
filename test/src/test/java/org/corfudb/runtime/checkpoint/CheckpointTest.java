@@ -101,7 +101,7 @@ public class CheckpointTest extends AbstractObjectTest {
                     //
                 }
                 // Trim the log
-                rt.getAddressSpaceView().prefixTrim(checkpointAddress);
+                rt.getAddressSpaceView().prefixTrim(checkpointAddress.getSequence());
                 rt.getAddressSpaceView().gc();
                 rt.getAddressSpaceView().invalidateServerCaches();
                 rt.getAddressSpaceView().invalidateClientCache();
@@ -490,8 +490,7 @@ public class CheckpointTest extends AbstractObjectTest {
                 mcw1.appendCheckpoints(rt, author);
 
                 // Trim the log
-                Token token = new Token(rt.getLayoutView().getLayout().getEpoch(), trimPosition);
-                rt.getAddressSpaceView().prefixTrim(token);
+                rt.getAddressSpaceView().prefixTrim(trimPosition);
                 rt.getAddressSpaceView().gc();
                 rt.getAddressSpaceView().invalidateServerCaches();
                 rt.getAddressSpaceView().invalidateClientCache();
@@ -561,7 +560,7 @@ public class CheckpointTest extends AbstractObjectTest {
         populateMaps(mapSize, map1, map2);
 
         // Trim again in exactly the same place shouldn't fail
-        Token token = new Token(rt.getLayoutView().getLayout().getEpoch(), 2);
+        long token = 2;
         rt.getAddressSpaceView().prefixTrim(token);
         rt.getAddressSpaceView().prefixTrim(token);
 
@@ -611,7 +610,7 @@ public class CheckpointTest extends AbstractObjectTest {
         getRuntime().getObjectsView().TXEnd();
 
         // Trim the log
-        getRuntime().getAddressSpaceView().prefixTrim(checkpointAddress);
+        getRuntime().getAddressSpaceView().prefixTrim(checkpointAddress.getSequence());
         getRuntime().getAddressSpaceView().gc();
         getRuntime().getAddressSpaceView().invalidateServerCaches();
         getRuntime().getAddressSpaceView().invalidateClientCache();
@@ -662,7 +661,7 @@ public class CheckpointTest extends AbstractObjectTest {
             }
 
             // Prefix Trim on checkpoint snapshot address
-            rt.getAddressSpaceView().prefixTrim(checkpointAddress);
+            rt.getAddressSpaceView().prefixTrim(checkpointAddress.getSequence());
             rt.getAddressSpaceView().gc();
             rt.getAddressSpaceView().invalidateServerCaches();
             rt.getAddressSpaceView().invalidateClientCache();
@@ -716,7 +715,7 @@ public class CheckpointTest extends AbstractObjectTest {
         MultiCheckpointWriter mcw = new MultiCheckpointWriter();
         mcw.addMap(diskBackedMap);
         Token token = mcw.appendCheckpoints(rt, "Author1");
-        rt.getAddressSpaceView().prefixTrim(token);
+        rt.getAddressSpaceView().prefixTrim(token.getSequence());
         rt.getAddressSpaceView().gc();
 
         CorfuRuntime newRt = getNewRuntime();

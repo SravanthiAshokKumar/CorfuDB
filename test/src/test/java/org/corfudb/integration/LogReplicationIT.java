@@ -1252,7 +1252,7 @@ public class LogReplicationIT extends AbstractIT implements Observer {
 
     private void trim(CorfuRuntime rt, int trimAddress) {
         log.debug("Trim at: " + trimAddress);
-        rt.getAddressSpaceView().prefixTrim(new Token(0, trimAddress));
+        rt.getAddressSpaceView().prefixTrim(trimAddress);
         rt.getAddressSpaceView().invalidateServerCaches();
     }
 

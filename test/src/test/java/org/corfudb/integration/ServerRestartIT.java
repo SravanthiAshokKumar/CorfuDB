@@ -549,7 +549,7 @@ public class ServerRestartIT extends AbstractIT {
                 corfuTable1.getByIndex(StringIndexer.BY_FIRST_LETTER, "9");
         Collection<Map.Entry<String, String>> c1b =
                 corfuTable1.getByIndex(StringIndexer.BY_VALUE, "9");
-        runtime1.getAddressSpaceView().prefixTrim(trimMark);
+        runtime1.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         runtime1.getAddressSpaceView().invalidateClientCache();
         runtime1.getAddressSpaceView().invalidateServerCaches();
         runtime1.getAddressSpaceView().gc();
@@ -622,7 +622,7 @@ public class ServerRestartIT extends AbstractIT {
         Token trimMark = multiCheckpointWriter.appendCheckpoints(runtime1, "Sam.Behnam");
         Collection<Map.Entry<String, String>> resultInitial =
                 corfuTable1.getByIndex(StringMultiIndexer.BY_EACH_WORD, "tag666");
-        runtime1.getAddressSpaceView().prefixTrim(trimMark);
+        runtime1.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         runtime1.getAddressSpaceView().invalidateClientCache();
         runtime1.getAddressSpaceView().invalidateServerCaches();
         runtime1.getAddressSpaceView().gc();
@@ -710,7 +710,7 @@ public class ServerRestartIT extends AbstractIT {
             cpw1.appendCheckpoint(new Token(0, snapshotAddress1 - 1));
 
             // Trim @snapshotAddress=15 (Checkpoint Writer 2)
-            r.getAddressSpaceView().prefixTrim(cp2Token);
+            r.getAddressSpaceView().prefixTrim(cp2Token.getSequence());
 
             // Start a new Runtime
             rt2 = new CorfuRuntime(DEFAULT_ENDPOINT).connect();
@@ -779,7 +779,7 @@ public class ServerRestartIT extends AbstractIT {
             Token cpAddress = cpw.appendCheckpoints(r, "cp-test");
 
             // Trim the log
-            r.getAddressSpaceView().prefixTrim(cpAddress);
+            r.getAddressSpaceView().prefixTrim(cpAddress.getSequence());
             r.getAddressSpaceView().gc();
             r.getAddressSpaceView().invalidateServerCaches();
             r.getAddressSpaceView().invalidateClientCache();

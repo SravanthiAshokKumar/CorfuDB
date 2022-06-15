@@ -1455,11 +1455,11 @@ public class StateTransferTest extends AbstractViewTest {
             Token trimMark2 = Token.of(l1.getEpoch(), 150);
 
             rt.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_0)
-                    .prefixTrim(trimMark0).join();
+                    .prefixTrim(trimMark0.getSequence()).join();
             rt.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_1)
-                    .prefixTrim(trimMark1).join();
+                    .prefixTrim(trimMark1.getSequence()).join();
             rt.getLayoutView().getRuntimeLayout().getLogUnitClient(SERVERS.ENDPOINT_2)
-                    .prefixTrim(trimMark2).join();
+                    .prefixTrim(trimMark2.getSequence()).join();
 
             autoCommitService.runAutoCommit();
 
@@ -1570,7 +1570,7 @@ public class StateTransferTest extends AbstractViewTest {
 
             final long trimMark = 100;
 
-            rt.getAddressSpaceView().prefixTrim(Token.of(l1.epoch, trimMark));
+            rt.getAddressSpaceView().prefixTrim(trimMark);
 
             long realTrimMark = rt.getAddressSpaceView().getTrimMark().getSequence();
 

@@ -800,12 +800,12 @@ public class LogReplicationAbstractIT extends AbstractIT {
         Token minToken = Token.min(token1, token2);
         trimMark = trimMark != null ? Token.min(trimMark, minToken) : minToken;
 
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().gc();
 
         // Trim
         log.debug("**** Trim Log @address=" + trimMark);
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().invalidateClientCache();
         cpRuntime.getAddressSpaceView().invalidateServerCaches();
         cpRuntime.getAddressSpaceView().gc();
@@ -848,7 +848,7 @@ public class LogReplicationAbstractIT extends AbstractIT {
         Token token = mcw.appendCheckpoints(cpRuntime, "checkpointer");
         trimMark = Token.min(trimMark, token);
 
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().gc();
 
         // Lastly restore the regular protoBuf serializer and undo the dynamic protoBuf serializer
@@ -857,7 +857,7 @@ public class LogReplicationAbstractIT extends AbstractIT {
 
         // Trim
         log.debug("**** Trim Log @address=" + trimMark);
-        cpRuntime.getAddressSpaceView().prefixTrim(trimMark);
+        cpRuntime.getAddressSpaceView().prefixTrim(trimMark.getSequence());
         cpRuntime.getAddressSpaceView().invalidateClientCache();
         cpRuntime.getAddressSpaceView().invalidateServerCaches();
         cpRuntime.getAddressSpaceView().gc();

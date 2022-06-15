@@ -88,7 +88,7 @@ public class WorkflowIT extends AbstractIT {
 
         Token prefix = mcw.appendCheckpoints(runtime, "checkpointer");
 
-        runtime.getAddressSpaceView().prefixTrim(prefix);
+        runtime.getAddressSpaceView().prefixTrim(prefix.getSequence());
 
         runtime.getAddressSpaceView().invalidateClientCache();
         runtime.getAddressSpaceView().invalidateServerCaches();
@@ -302,7 +302,7 @@ public class WorkflowIT extends AbstractIT {
         MultiCheckpointWriter mcw = new MultiCheckpointWriter();
         mcw.addMap(table);
         Token prefixTrimAddress = mcw.appendCheckpoints(runtime, "author");
-        runtime.getAddressSpaceView().prefixTrim(prefixTrimAddress);
+        runtime.getAddressSpaceView().prefixTrim(prefixTrimAddress.getSequence());
         runtime.getAddressSpaceView().invalidateServerCaches();
         runtime.getAddressSpaceView().invalidateClientCache();
         runtime.getAddressSpaceView().gc();
@@ -442,7 +442,7 @@ public class WorkflowIT extends AbstractIT {
         runtime.getObjectsView().TXEnd();
 
         // (6)
-        runtime.getAddressSpaceView().prefixTrim(prefixTrim);
+        runtime.getAddressSpaceView().prefixTrim(prefixTrim.getSequence());
 
         // (7)
         runtime.getGarbageCollector().runRuntimeGC();
@@ -598,7 +598,7 @@ public class WorkflowIT extends AbstractIT {
         countDownLatch3.await();
 
         // (8)
-        runtime.getAddressSpaceView().prefixTrim(prefixTrim);
+        runtime.getAddressSpaceView().prefixTrim(prefixTrim.getSequence());
 
         // (9) Note: run it twice so we enforce the trim at stream layer which is deferred in one cycle
         runtime.getGarbageCollector().runRuntimeGC();
@@ -690,7 +690,7 @@ public class WorkflowIT extends AbstractIT {
         Token prefixTrim = mcw.appendCheckpoints(runtime, "author");
 
         // (4) Trim
-        runtime.getAddressSpaceView().prefixTrim(prefixTrim);
+        runtime.getAddressSpaceView().prefixTrim(prefixTrim.getSequence());
 
         // (5) Initiate Snapshot Transaction (before runtime GC) should complete as data is kept locally
         runtime.getObjectsView().TXBuild().type(TransactionType.SNAPSHOT)

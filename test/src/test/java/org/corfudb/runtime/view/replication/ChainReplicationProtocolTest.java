@@ -246,7 +246,7 @@ public class ChainReplicationProtocolTest extends AbstractReplicationProtocolTes
 
         // If client attempt to inspect any address before the trim mark, a TrimmedException should
         // be thrown to inform the client to retry auto commit from a larger address.
-        rt.getAddressSpaceView().prefixTrim(Token.of(layout.getEpoch(), lastAddr - 1));
+        rt.getAddressSpaceView().prefixTrim(lastAddr - 1);
         assertThatThrownBy(() -> rp.commitAll(runtimeLayout, Collections.singletonList(lastAddr - 1)))
                 .isInstanceOf(TrimmedException.class);
     }

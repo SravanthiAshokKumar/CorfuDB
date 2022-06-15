@@ -275,7 +275,7 @@ public class CorfuLongRunningClientIT extends AbstractIT {
             }
 
             // Trim right after third checkpoint cycle
-            cpClient.getAddressSpaceView().prefixTrim(trimMark);
+            cpClient.getAddressSpaceView().prefixTrim(trimMark.getSequence());
             cpClient.getAddressSpaceView().gc();
         } finally {
             client2.shutdown();

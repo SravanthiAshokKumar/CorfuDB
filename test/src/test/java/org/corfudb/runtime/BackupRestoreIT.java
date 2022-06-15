@@ -658,8 +658,7 @@ public class BackupRestoreIT extends AbstractIT {
         }
 
         // Trim the log
-        Token token = new Token(0, srcDataRuntime.getAddressSpaceView().getLogTail());
-        srcDataRuntime.getAddressSpaceView().prefixTrim(token);
+        srcDataRuntime.getAddressSpaceView().prefixTrim(srcDataRuntime.getAddressSpaceView().getLogTail());
 
         // Backup
         Backup backup = new Backup(BACKUP_TAR_FILE_PATH, streamIDs, backupRuntime);

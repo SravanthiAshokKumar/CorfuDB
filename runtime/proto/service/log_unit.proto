@@ -48,7 +48,7 @@ message InspectAddressesResponseMsg {
 }
 
 message TrimLogRequestMsg {
-  TokenMsg address = 1;
+  int64 address = 1;
 }
 
 message TrimLogResponseMsg {

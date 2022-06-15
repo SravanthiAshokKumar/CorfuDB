@@ -130,7 +130,7 @@ public class BatchProcessorTest {
         long epoch = 0L;
         long sequence = 5L;
         RequestMsg request = getRequestMsg(getBasicHeader(ClusterIdCheck.CHECK, EpochCheck.CHECK),
-                getTrimLogRequestMsg(new Token(epoch, sequence)));
+                getTrimLogRequestMsg(sequence));
 
         batchProcessor.addTask(BatchWriterOperation.Type.PREFIX_TRIM, request).join();
         verify(mockStreamLog).prefixTrim(sequence);

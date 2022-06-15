@@ -242,7 +242,7 @@ public class LogUnitHandlerTest extends AbstractClientTest {
         assertThat(r.getType())
                 .isEqualTo(DataType.DATA);
 
-        client.prefixTrim(new Token(0L, address0)).get();
+        client.prefixTrim(address0).get();
         client.compact().get();
 
         // For logunit cache flush
@@ -576,7 +576,7 @@ public class LogUnitHandlerTest extends AbstractClientTest {
         ).isEqualTo(Collections.singletonList(holeAddr));
 
         // Perform a prefix trim.
-        client.prefixTrim(Token.of(client.getEpoch(), trimAddr)).join();
+        client.prefixTrim(trimAddr).join();
 
         // If client attempt to inspect any address before the trim mark, a
         // TrimmedException should be thrown to inform the client to retry
